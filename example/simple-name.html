@@ -1,0 +1,16 @@
+<polymer-element name="simple-name" attributes="name">
+  <template>
+     <input value="{{name}}">
+  </template>
+  <script>
+    Polymer("simple-name", {
+      name : "Jessy",
+      nameChanged: function() {
+        if (this.name) {
+          // ensure capitalization
+          this.name = this.name[0].toUpperCase() +  this.name.slice(1);
+        }
+      }
+    });
+  </script>
+</polymer-element>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>AngularJS + Polymer two way binding</title>
+        <script src="http://code.angularjs.org/1.2.12/angular.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/polymer/0.1.4/platform.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/polymer/0.1.4/polymer.js"></script>
+        <script src="../angupoly.js"></script>
+        <link rel="import" href="simple-name.html">
+        <style type="text/css">
+            fieldset {
+              width : 120px;
+              margin-bottom : 5px;
+            }
+        </style>
+        <script>
+            angular.module('app', ['angupoly'])
+            .run(function($rootScope) {
+                $rootScope.name = 'matt';
+            });
+        </script>
+    </head>
+    <body ng-app="app">
+        <fieldset>
+            <legend>Angular:</legend>
+            <input ng-model="$parent.name" ng-repeat="i in [1, 2]">
+        </fieldset>
+        <fieldset>
+            <legend>Polymer:</legend>
+            <simple-name angupoly="{name:'$root.name'}" ng-repeat="i in [1, 2]"></simple-name>
+        </fieldset>
+    </body>
+</html>
