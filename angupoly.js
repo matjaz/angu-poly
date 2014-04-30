@@ -37,7 +37,7 @@ angular.module('angupoly', [])
                 i = 0;
             while ((mutation = mutations[i++])) {
               for (var attrName in assignables) {
-                if (mutation.attributeName.indexOf(attrName) !== -1) {
+                if (mutation.attributeName === attrName) {
                   assignables[attrName](scope, mutation.target[attrName]);
                   updates = true;
                 }
