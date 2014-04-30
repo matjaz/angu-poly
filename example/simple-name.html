@@ -4,6 +4,9 @@
   </template>
   <script>
     Polymer("simple-name", {
+      publish: {
+        name: {value: "Jessy", reflect: true}
+      },
       name : "Jessy",
       nameChanged: function() {
         if (this.name) {
