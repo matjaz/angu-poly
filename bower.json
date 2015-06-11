@@ -1,0 +1,18 @@
+{
+  "name": "angu-poly",
+  "version": "1.0.0",
+  "homepage": "https://github.com/matjaz/angu-poly",
+  "authors": [
+    "Matjaz Lipus <matjazl@gmail.com>"
+  ],
+  "license": "MIT",
+  "main": "angupoly.js",
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "example"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0"
+  }
+}

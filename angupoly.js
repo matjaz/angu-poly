@@ -1,54 +1,36 @@
 angular.module('angupoly', [])
-.directive('angupoly', function($rootScope, $parse) {
+.directive('angupoly', function($parse) {
   return {
-    priority : 42,
-    restrict : 'A',
-    compile  : function(tElement, tAttr) {
-      var conf = $rootScope.$eval(tAttr.angupoly);
-      var assignables = {};
-      var paths       = {};
-      var needsMutationObserver;
+    priority: 42,
+    restrict: 'A',
+    link: function(scope, element, attr) {
+      var el = element[0];
+      var conf = scope.$eval(attr.angupoly);
 
-      Object.keys(conf).forEach(function(attrName) {
-        var path  = conf[attrName],
-            parse = $parse(path);
-        if (parse.assign) {
-          assignables[attrName] = parse.assign;
-          needsMutationObserver = true;
+      Object.keys(conf).forEach(function(propName) {
+        var path  = conf[propName];
+        var parse = $parse(path);
+        var assign = parse.assign;
+
+        // from angular scope to element property
+        scope.$watch(path, function(val) {
+          el[propName] = val;
+        });
+
+        if (assign) {
+          // from element property to angular scope
+          el.addEventListener(propName + '-changed', function(e) {
+            var detail = e.detail;
+            // filter array '.splices' etc.
+            if (!detail.path || detail.path === propName) {
+              scope.$evalAsync(function() {
+                assign(scope, detail.value);
+              });
+            }
+          });
         }
-        paths[attrName] = path;
+
       });
-      return function(scope, element) {
-        var el = element[0];
-
-        // from angular scope to attribute
-        // http://www.polymer-project.org/platform/node_bind.html
-        for (var attrName in paths) {
-          el.bind(attrName, new PathObserver(scope, paths[attrName]));
-        }
-
-        if (needsMutationObserver) {
-          // from attribute to angular scope
-          // https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
-          // http://caniuse.com/mutationobserver
-          new MutationObserver(function(mutations) {
-            var mutation,
-                updates,
-                i = 0;
-            while ((mutation = mutations[i++])) {
-              for (var attrName in assignables) {
-                if (mutation.attributeName === attrName) {
-                  assignables[attrName](scope, mutation.target[attrName]);
-                  updates = true;
-                }
-              }
-            }
-            if (updates) {
-              scope.$apply();
-            }
-          }).observe(el, {attributes:true});
-        }
-      };
     }
   };
 });

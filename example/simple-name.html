@@ -1,19 +1,26 @@
-<polymer-element name="simple-name" attributes="name">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="simple-name">
   <template>
-     <input value="{{name}}">
+    <input value="{{name::input}}">
   </template>
-  <script>
-    Polymer("simple-name", {
-      publish: {
-        name: {value: "Jessy", reflect: true}
-      },
-      name : "Jessy",
-      nameChanged: function() {
-        if (this.name) {
-          // ensure capitalization
-          this.name = this.name[0].toUpperCase() +  this.name.slice(1);
-        }
+</dom-module>
+<script>
+  Polymer({
+    is: 'simple-name',
+    properties: {
+      name: {
+        type: String,
+        value: 'Jessy',
+        notify: true,
+        observer: 'nameChanged'
       }
-    });
-  </script>
-</polymer-element>
+    },
+    nameChanged: function(name) {
+      if (name) {
+        // ensure capitalization
+        this.name = name[0].toUpperCase() + name.slice(1);
+      }
+    }
+  });
+</script>

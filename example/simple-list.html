@@ -1,0 +1,41 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="simple-list">
+  <template>
+    <div>
+      <ul>
+      <template is="dom-repeat" items="{{items}}">
+        <li><span>{{item.text}}</span> <span>{{item.price}}</span></li>
+      </template>
+      </ul>
+      <input type="button" value="add" on-click="addItem">
+      <input type="button" value="random" on-click="randomItems">
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'simple-list',
+    properties: {
+      items: {
+        type: Array,
+        value: [],
+        notify: true
+      }
+    },
+    _getRandItem: function() {
+      return {
+        text: 'item',
+        price: Math.round(Math.random() * 10 + 5)
+      };
+    },
+    // add to current array
+    addItem: function() {
+      this.push('items', this._getRandItem());
+    },
+    // create new array
+    randomItems: function() {
+      this.set('items', [this._getRandItem()]);
+    }
+  });
+</script>

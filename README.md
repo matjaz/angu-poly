@@ -4,8 +4,7 @@ Angu-poly
 AngularJS & Polymer two way binding
 -----------------------------------
 
-
-Polyglot for AngularJS and Polymer a simple two way binding of attribute values, using, Node.bind and MutationObserver.
+Polyglot for AngularJS and Polymer a simple two way binding.
 
 [Demo](http://plnkr.co/Wb31bj)
 
