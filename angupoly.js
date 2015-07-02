@@ -8,14 +8,26 @@ angular.module('angupoly', [])
       var conf = scope.$eval(attr.angupoly);
 
       Object.keys(conf).forEach(function(propName) {
-        var path  = conf[propName];
+        var path = conf[propName];
+        var type;
+        if (typeof path === 'object') {
+          type = path.type;
+          path = path.path;
+        }
         var parse = $parse(path);
         var assign = parse.assign;
 
         // from angular scope to element property
-        scope.$watch(path, function(val) {
-          el[propName] = val;
-        });
+        if (type === 'array') {
+          scope.$watchCollection(path, function(val) {
+            // clone new array, since Polymer doesn't update same object reference
+            el.set(propName, val.slice());
+          });
+        } else {
+          scope.$watch(path, function(val) {
+            el[propName] = val;
+          });
+        }
 
         if (assign) {
           // from element property to angular scope

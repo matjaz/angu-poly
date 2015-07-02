@@ -23,7 +23,7 @@
         notify: true
       }
     },
-    _getRandItem: function() {
+    getRandItem: function() {
       return {
         text: 'item',
         price: Math.round(Math.random() * 10 + 5)
@@ -31,11 +31,11 @@
     },
     // add to current array
     addItem: function() {
-      this.push('items', this._getRandItem());
+      this.push('items', this.getRandItem());
     },
     // create new array
     randomItems: function() {
-      this.set('items', [this._getRandItem()]);
+      this.set('items', [this.getRandItem()]);
     }
   });
 </script>

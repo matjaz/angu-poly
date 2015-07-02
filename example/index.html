@@ -27,6 +27,9 @@
             price: 2
           }]
         };
+        $rootScope.addItem = function() {
+          $rootScope.data.list.push(document.querySelector('simple-list').getRandItem());
+        }
       });
     </script>
   </head>
@@ -44,10 +47,11 @@
       <ul>
         <li ng-repeat="d in data.list track by $index">{{::d.text}} {{::d.price}}</li>
       </ul>
+      <button ng-click="addItem()">add</button>
     </fieldset>
     <fieldset style="float:left">
       <legend>Polymer List</legend>
-      <simple-list angupoly="{items:'data.list'}"></simple-list>
+      <simple-list angupoly="{items:{path:'data.list',type:'array'}}"></simple-list>
     </fieldset>    
   </body>
 </html>
