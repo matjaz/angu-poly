@@ -21,11 +21,13 @@ angular.module('angupoly', [])
           // from element property to angular scope
           el.addEventListener(propName + '-changed', function(e) {
             var detail = e.detail;
-            // filter array '.splices' etc.
-            if (!detail.path || detail.path === propName) {
+            var path = detail.path;
+            if (!path || path === propName) {
               scope.$evalAsync(function() {
                 assign(scope, detail.value);
               });
+            } else if (path === propName + '.splices') {
+              scope.$apply();
             }
           });
         }

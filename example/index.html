@@ -39,9 +39,15 @@
       <legend>Polymer</legend>
       <simple-name angupoly="{name:'data.name'}" ng-repeat="i in ::[1, 2]"></simple-name>
     </fieldset>
-    <fieldset>
-      <legend>List</legend>
-      <simple-list angupoly="{items:'data.list'}"></simple-list><br>
+    <fieldset style="float:left">
+      <legend>Angular List</legend>
+      <ul>
+        <li ng-repeat="d in data.list track by $index">{{::d.text}} {{::d.price}}</li>
+      </ul>
     </fieldset>
+    <fieldset style="float:left">
+      <legend>Polymer List</legend>
+      <simple-list angupoly="{items:'data.list'}"></simple-list>
+    </fieldset>    
   </body>
 </html>
