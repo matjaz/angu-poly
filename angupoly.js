@@ -3,9 +3,9 @@ angular.module('angupoly', [])
   return {
     priority: 42,
     restrict: 'A',
-    link: function(scope, element, attr) {
-      var el = element[0];
-      var conf = scope.$eval(attr.angupoly);
+    controller: function($scope, $element, $attrs) {
+      var el = $element[0];
+      var conf = $scope.$eval($attrs.angupoly);
 
       Object.keys(conf).forEach(function(propName) {
         var path = conf[propName];
@@ -19,12 +19,12 @@ angular.module('angupoly', [])
 
         // from angular scope to element property
         if (type === 'array') {
-          scope.$watchCollection(path, function(val) {
+          $scope.$watchCollection(path, function(val) {
             // clone new array, since Polymer doesn't update same object reference
             el.set(propName, val.slice());
           });
         } else {
-          scope.$watch(path, function(val) {
+          $scope.$watch(path, function(val) {
             el[propName] = val;
           });
         }
@@ -35,11 +35,11 @@ angular.module('angupoly', [])
             var detail = e.detail;
             var path = detail.path;
             if (!path || path === propName) {
-              scope.$evalAsync(function() {
-                assign(scope, detail.value);
+              $scope.$evalAsync(function() {
+                assign($scope, detail.value);
               });
             } else if (path === propName + '.splices') {
-              scope.$apply();
+              $scope.$apply();
             }
           });
         }
